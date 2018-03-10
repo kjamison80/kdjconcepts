@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'localhost',
+    name: 'kdjconcepts',
     script: './index.js'
   }],
   deploy: {
@@ -10,7 +10,7 @@ module.exports = {
       key: '~/.ssh/mykeypair.pem',
       ref: 'origin/master',
       repo: 'git@github.com:kjamison80/kdjconcepts.git',
-      path: '/home/ec2-user/mykeypair',
+      path: '/home/ec2-user/kdjconcepts',
       'post-deploy': 'npm install && pm2 startOrRestart ecosystem.config.js'
     }
   }
