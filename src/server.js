@@ -14,7 +14,7 @@ server.get('/', (req, res) => {
 
   const body = renderToString(sheet.collectStyles(<App />)); // <-- collecting styles
   const styles = sheet.getStyleTags(); // <-- getting all the tags from the sheet
-  const title = 'Server side Rendering with Styled Components';
+  const title = 'KDJ Concepts';
 
   res.send(
     Html({

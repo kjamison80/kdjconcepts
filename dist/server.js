@@ -115,7 +115,7 @@ server.get('/', function (req, res) {
 
   var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(_App2.default, null))); // <-- collecting styles
   var styles = sheet.getStyleTags(); // <-- getting all the tags from the sheet
-  var title = 'Server side Rendering with Styled Components';
+  var title = 'KDJ Concepts';
 
   res.send((0, _Html2.default)({
     body: body,
@@ -150,7 +150,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  font-size: 40px;\n  background: #333;\n  color: #fff;\n  font-family: arial;\n'], ['\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  font-size: 40px;\n  background: #333;\n  color: #fff;\n  font-family: arial;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  text-align: center;\n  font-family: arial;\n'], ['\n  text-align: center;\n  font-family: arial;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -171,7 +171,11 @@ var App = function App() {
   return _react2.default.createElement(
     AppContaienr,
     null,
-    'Coming Soon.'
+    _react2.default.createElement(
+      'h1',
+      null,
+      'Coming Soon.'
+    )
   );
 };
 
@@ -196,7 +200,7 @@ var Html = function Html(_ref) {
   var body = _ref.body,
       styles = _ref.styles,
       title = _ref.title;
-  return "\n  <!DOCTYPE html>\n  <html>\n    <head>\n      <title>" + title + "</title>\n      " + styles + "\n    </head>\n    <body style=\"margin:0\">\n      <div id=\"app\">" + body + "</div>\n    </body>\n  </html>\n";
+  return "\n  <!DOCTYPE html>\n  <html>\n    <head>\n      <title>" + title + "</title>\n      " + styles + "\n    </head>\n    <body style=\"margin:0;background:#333;color:#fff;\">\n      <div id=\"app\">" + body + "</div>\n    </body>\n  </html>\n";
 };
 
 exports.default = Html;

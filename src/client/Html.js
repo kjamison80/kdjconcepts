@@ -10,7 +10,7 @@ const Html = ({ body, styles, title }) => `
       <title>${title}</title>
       ${styles}
     </head>
-    <body style="margin:0">
+    <body style="margin:0;background:#333;color:#fff;">
       <div id="app">${body}</div>
     </body>
   </html>
