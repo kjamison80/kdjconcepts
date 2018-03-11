@@ -11,7 +11,8 @@ const AppContaienr = styled.div`
   height: 100%;
   font-size: 40px;
   background: #333;
-  color: #ccc;
+  color: #fff;
+  font-family: arial;
 `;
 
 const App = () => <AppContaienr>Coming Soon.</AppContaienr>;
