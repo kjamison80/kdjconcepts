@@ -11,7 +11,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:kjamison80/kdjconcepts.git',
       path: '/home/ec2-user/kdjconcepts',
-      'post-deploy': 'npm install && npm run build && npm -- start && pm2 startOrRestart ecosystem.config.js'
+      'post-deploy': 'npm install && npm run build && pm2 startOrRestart ecosystem.config.js'
     }
   }
 }
