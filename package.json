@@ -1,20 +1,25 @@
 {
-  "name": "styled-components-server-side-rendering",
+  "name": "kdjconcepts",
   "version": "1.0.0",
-  "description": "React server side rendering with Styled Components",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./dist/server",
+    "build": "webpack",
     "restart": "pm2 startOrRestart ecosystem.config.js",
     "deploy": "pm2 deploy ecosystem.config.js production",
-    "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jobeir/styled-components-server-side-rendering"
+    "url": "git+https://github.com/kjamison80/kdjconcepts.git"
   },
-  "author": "Dennis Brotzky <dennis@jobeir.com>",
-  "license": "MIT",
-  "homepage": "https://github.com/Jobeir/styled-components-server-side-rendering",
+  "author": "Kirstina Jamison",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kjamison80/kdjconcepts/issues"
+  },
+  "homepage": "https://github.com/kjamison80/kdjconcepts#readme",
   "devDependencies": {
     "babel-core": "^6.10.4",
     "babel-loader": "^7.1.2",
