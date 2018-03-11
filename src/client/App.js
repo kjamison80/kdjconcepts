@@ -13,6 +13,10 @@ const AppContaienr = styled.div`
   background: #333;
   color: #fff;
   font-family: arial;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 `;
 
 const App = () => <AppContaienr>Coming Soon.</AppContaienr>;
