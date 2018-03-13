@@ -16,7 +16,10 @@ export default class MyPage extends React.Component {
 
   	return (
 	  <Page>
-	    <h2>Coming Soon</h2>
+	    <h1>ciao</h1>
+	    <p>Next.js has {this.props.stars} ⭐️</p>
+	    <Link prefetch href='/preact'><a>How about preact?</a></Link>
+      <p><Link prefetch href={`/user?id=${userId}`} as={`/user/${userId}`}><a>Go to user page</a></Link></p>
 	  </Page>
   	)
   }

@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
     return (
         <header>
-            Some trial and error
+            <h1>KDJ Concepts</h1>
         </header>
     );
 };
