@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "node server.js -p $PORT",
     "build": "next build",
-    "start": "set NODE_ENV=production;node server.js -p $PORT"
+    "start": "set NODE_ENV=production;node server.js -p $PORT",
+    "restart": "pm2 startOrRestart ecosystem.config.js",
+    "deploy": "pm2 deploy ecosystem.config.js production"
   },
   "repository": {
     "type": "git",
