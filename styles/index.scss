@@ -1,0 +1,11 @@
+@import 'normalize.css';
+
+$primary-color: red;
+
+body {
+  font-family: arial, 'sans-serif';
+}
+
+p {
+  color: $primary-color;
+}
