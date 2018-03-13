@@ -1,11 +1,18 @@
 @import 'normalize.css';
 
-$primary-color: red;
+$primary-color: white;
 
 body {
   font-family: arial, 'sans-serif';
+  background: #333;
+  color: $primary-color;
+  text-align: center;
 }
 
-p {
+a {
   color: $primary-color;
+}
+
+a:hover {
+  color: pink;
 }
