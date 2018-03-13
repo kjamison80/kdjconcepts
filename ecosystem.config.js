@@ -1,7 +1,15 @@
 module.exports = {
   apps: [{
     name: 'kdjconcepts',
-    script: './server.js'
+    script: './server.js',
+    env: {
+      "PORT": 3000,
+      "NODE_ENV": "development"
+    },
+    env_production: {
+      "PORT": 3000,
+      "NODE_ENV": "production"
+    }
   }],
   deploy: {
     production: {
@@ -11,7 +19,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:kjamison80/kdjconcepts.git',
       path: '/home/ec2-user/kdjconcepts',
-      'post-deploy': 'npm install && npm run start && pm2 startOrRestart ecosystem.config.js'
+      'post-deploy': 'npm install && npm run build && pm2 startOrRestart ecosystem.config.js --env production'
     }
   }
 }
