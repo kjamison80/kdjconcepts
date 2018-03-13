@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'kdjconcepts',
-    script: './dist/server.js'
+    script: './server.js'
   }],
   deploy: {
     production: {
