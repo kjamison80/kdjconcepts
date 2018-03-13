@@ -8,6 +8,9 @@ import stylesheet from 'styles/index.scss'
 export default ({ children }) => (
   <div>
       <Head>
+      	  <meta name="viewport" content="width=device-width">
+      	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      	  <title>KDJ Concepts</title>
           <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
           <link href="/static/index.css" rel="stylesheet" />
           <link href="/static/index2.css" rel="stylesheet" />
