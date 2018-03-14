@@ -1,3 +1,6 @@
-h1 {
-  font-size: 300%;
+/** Core Decorative Styles **/
+hr {
+	border: dotted rgba(255,255,255,.35);
+	border-width: 1px 0 0;
+	margin: 1em 2%;
 }
