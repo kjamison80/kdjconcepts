@@ -1,36 +1,47 @@
+import React, { Component } from 'react';
+// import 'isomorphic-unfetch';
+import withRedux from 'next-redux-wrapper';
+import { bindActionCreators } from 'redux';
+import Page from '../layouts/default';
+import DayOptions from '../components/DayOptions';
+import { initStore, setDayQty } from '../stores/grocery';
 
-import React from 'react'
-import Link from 'next/link'
-import 'isomorphic-unfetch'
-import Page from '../layouts/default'
+export class MyPage extends Component {
+    setDayQty(e) {
+        this.props.setDayQty(e.currentTarget.value);
+    }
 
-export default class MyPage extends React.Component {
-  // static async getInitialProps () {
-  //   // eslint-disable-next-line no-undef
-  //   const res = await fetch('https://api.github.com/repos/developit/preact')
-  //   const json = await res.json()
-  //   return { stars: json.stargazers_count }
-  // }
+    render() {
+        const { dayQty, daysToPlan } = this.props;
+        const days = [...daysToPlan];
 
-  render () {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-    return (
-      <Page>
-        <div class="col-wrap dw-50 tw-100">
-          <div class="col">
-            <label htmlFor="shoppingDay">Planned Shopping Day</label>
-            <select id="shppingDay">
-              {days.map((day, index) => <option key={day.toLowerCase()} value={day.toLowerCase()}>{day}</option>)}
-            </select>
-          </div>
-          <div class="col dw-50">
-            <label htmlFor="qtyDays">Shopping for how many days?</label>
-            <input type="number" value="7" />
-          </div>
-        </div>
-        <hr />
-      </Page>
-    );
-  }
+        return (
+            <Page>
+                <div className="col-wrap dw-50 tw-100">
+                    <div className="col">
+                        <label htmlFor="shoppingDay">Planned Shopping Day</label>
+                        <select id="shppingDay">
+                            {days.map(day => <option key={day.toLowerCase()} value={day.toLowerCase()}>{day}</option>)}
+                        </select>
+                    </div>
+                    <div className="col dw-50">
+                        <label htmlFor="qtyDays">Shopping for how many days?</label>
+                        <input className="ti qty" type="number" defaultValue={dayQty} onChange={e => this.setDayQty(e)} />
+                    </div>
+                </div>
+                <hr />
+                <div className="col-wrap d-4col t-2col m-1col">
+                    <DayOptions />
+                </div>
+            </Page>
+        );
+    }
 }
+
+const mapStateToProps = ({ dayQty, daysToPlan }) => ({ dayQty, daysToPlan });
+
+const mapDispatchToProps = dispatch => ({
+    setDayQty: bindActionCreators(setDayQty, dispatch),
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyPage);
