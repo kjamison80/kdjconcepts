@@ -1,0 +1,24 @@
+/** App Styles **/
+@import 'normalize.css';
+
+$site-bg: #333;
+$primary-color: #dedede;
+$link-color: pink;
+$link-hover-color: #fff;
+$form-input-color: #777;
+
+/** Mixins **/
+@mixin all-tran {
+  transition-property: all;
+  transition-duration: .2s;
+  transition-timing-function: ease-in;
+}
+
+@mixin arrowBg($color) {
+  $arrowWidth: 1.79em;
+  background: url(../static/images/updown.png) no-repeat right center; /* Old browsers */
+  background: (url(../static/images/updown.png) no-repeat right center, -moz-linear-gradient(right, $color $arrowWidth, #fff $arrowWidth, #fff 101%)); /* FF3.6-15 */
+  background: (url(../static/images/updown.png) no-repeat right center, -webkit-linear-gradient(right, $color $arrowWidth,#fff $arrowWidth,#fff 101%)); /* Chrome10-25,Safari5.1-6 */
+  background: (url(../static/images/updown.png) no-repeat right center, linear-gradient(to left, $color $arrowWidth,#fff $arrowWidth,#fff 101%)); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background-size: auto 100%;
+}

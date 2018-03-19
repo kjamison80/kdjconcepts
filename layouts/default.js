@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Header from '../components/Header';
 
-import stylesheet from 'styles/index.scss'
+import stylesheet from 'styles/globalStyles.scss'
 // or, if you work with plain css
 // import stylesheet from 'styles/index.css'
 

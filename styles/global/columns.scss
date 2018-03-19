@@ -1,0 +1,73 @@
+/* columns */
+.col-wrap:before,
+.col-wrap:after {
+  content: ".";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+
+.col-wrap:after {
+    clear: both;
+}
+
+.col-wrap {
+    zoom: 1; /* IE < 8 */
+}
+
+.col-wrap > .col {
+	float: left;
+}
+
+.col-wrap.d-2col > .col {
+	width: 50%;
+}
+
+.col-wrap.d-3col > .col {
+	width: 33.3333%;
+}
+
+.col-wrap.d-4col > .col {
+	width: 25%;
+}
+
+.col-wrap.dw-20 > .col,
+.dw-20:not(.col-wrap) {
+	width: 20%;
+}
+
+.col-wrap.dw-30 > .col,
+.dw-30:not(.col-wrap) {
+	width: 30%;
+}
+
+.col-wrap.dw-40 > .col,
+.dw-40 {
+	width: 40%;
+}
+
+.col-wrap.dw-50 > .col,
+.dw-50:not(.col-wrap) {
+	width: 50%;
+}
+
+.col-wrap.dw-60 > .col,
+.dw-60:not(.col-wrap) {
+	width: 60%;
+}
+
+.col-wrap.dw-70 > .col,
+.dw-70:not(.col-wrap) {
+	width: 70%;
+}
+
+.col-wrap.dw-80 > .col,
+.dw-80:not(.col-wrap) {
+	width: 80%;
+}
+
+.col-wrap.dw-100 > .col,
+.dw-100:not(.col-wrap) {
+	width: 100%;
+}
+/* end columns */

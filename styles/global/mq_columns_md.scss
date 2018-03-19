@@ -1,0 +1,59 @@
+/* medium mq */
+@media (max-width: 850px) {
+	.col-wrap.t-1col > .col {
+		width: 100%;
+	}
+
+	.col-wrap.t-2col > .col {
+		width: 50%;
+	}
+
+	.col-wrap.t-3col > .col {
+		width: 33.3333%;
+	}
+
+	.col-wrap.t-4col > .col {
+		width: 25%;
+	}
+
+	.col-wrap.tw-20 > .col,
+	.tw-20:not(.col-wrap) {
+		width: 20%;
+	}
+
+	.col-wrap.tw-30 > .col,
+	.tw-30:not(.col-wrap) {
+		width: 30%;
+	}
+
+	.col-wrap.tw-40 > .col,
+	.tw-40:not(.col-wrap) {
+		width: 40%;
+	}
+
+	.col-wrap.tw-50 > .col,
+	.tw-50:not(.col-wrap) {
+		width: 50%;
+	}
+
+	.col-wrap.tw-60 > .col,
+	.tw-60:not(.col-wrap) {
+		width: 60%;
+	}
+
+	.col-wrap.tw-70 > .col,
+	.tw-70:not(.col-wrap) {
+		width: 70%;
+	}
+
+	.col-wrap.tw-80 > .col,
+	.tw-80:not(.col-wrap) {
+		width: 80%;
+	}
+
+	.col-wrap.tw-100 > .col,
+	.tw-100:not(.col-wrap) {
+		width: 100%;
+	}
+}
+/* end medium mq */
