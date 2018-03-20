@@ -111,6 +111,7 @@ class DayOptions extends Component {
 	    this.onChange = this.onChange.bind(this);
 	    this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
 	    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
+	    this.handleClearInputClick = this.handleClearInputClick.bind(this);
 	    this.typeOnChange = this.typeOnChange.bind(this);
 	}
 
@@ -129,11 +130,19 @@ class DayOptions extends Component {
 	};
 
 	// Autosuggest will call this function every time you need to clear suggestions.
+	// Commented out the setting of the state for now cause it was clearing suggestions on blur
 	onSuggestionsClearRequested() {
-	    this.setState({
-	        suggestions: [...meals],
-	    });
+	    // this.setState({
+	    //     suggestions: [...meals],
+	    // });
 	};
+
+	handleClearInputClick() {
+		this.setState({
+			value: '',
+			suggestions: [...meals],
+		});
+	}
 
 	typeOnChange(event) {
 	    this.setState({
@@ -157,17 +166,24 @@ class DayOptions extends Component {
                 <p>{mealSelectorOptions.day} {mealSelectorOptions.meal}</p>
                 <div>
                     <input id="filterByMealType" type="checkbox" checked={filterByMealType} onClick={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
+                	
                 </div>
                 <div className="dw-80 mlr-auto mTB1">
-                  <Autosuggest
-			        suggestions={filterByMealType ? suggestions.filter(suggestion => suggestion.type === mealSelectorOptions.meal || suggestion.type === '') : suggestions}
-			        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-			        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-			        getSuggestionValue={getSuggestionValue}
-			        renderSuggestion={renderSuggestion}
-			        alwaysRenderSuggestions={true}
-			        inputProps={inputProps}
-			      />
+                	<div className="mealPicker mlr-auto">
+                		{value && (
+			    			<button onClick={this.handleClearInputClick} className="clearAutosuggestions">x</button>
+			    		)}
+                		<Autosuggest
+			        		suggestions={filterByMealType ? suggestions.filter(suggestion => suggestion.type === mealSelectorOptions.meal || suggestion.type === '') : suggestions}
+			        		onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+			        		onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+			        		getSuggestionValue={getSuggestionValue}
+			        		renderSuggestion={renderSuggestion}
+			        		alwaysRenderSuggestions={true}
+			        		inputProps={inputProps}
+			        		focusInputOnSuggestionClick={false}
+			      		/>
+			        </div>
 			    </div>
             </Page>
         );

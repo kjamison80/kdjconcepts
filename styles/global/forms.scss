@@ -73,12 +73,24 @@ select:not([multiple]) {
   }
 }
 
-.react-autosuggest__input,
-.react-autosuggest__suggestions-container--open {
+.mealPicker {
   max-width: 30em;
-  margin-left: auto;
-  margin-right: auto;
   text-transform: capitalize;
+  position: relative;
+}
+
+.clearAutosuggestions {
+  position: absolute;
+  right: 0;
+  top: 1px;
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-size: 1.5em;
+}
+
+.clearAutosuggestions:focus {
+  outline: none;
 }
 
 .react-autosuggest__suggestions-container ul {
