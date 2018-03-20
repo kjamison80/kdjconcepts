@@ -24,7 +24,7 @@ export class MyPage extends Component {
                     <div className="col-wrap dw-50 tw-100">
                         <div className="col">
                             <label htmlFor="shoppingDay" className="block">Planned Shopping Day</label>
-                            <select id="shppingDay">
+                            <select id="shppingDay" className="caps">
                                 {days.map(day => <option key={day.toLowerCase()} value={day.toLowerCase()}>{day}</option>)}
                             </select>
                         </div>

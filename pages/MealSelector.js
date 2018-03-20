@@ -5,19 +5,74 @@ import Page from '../layouts/default';
 
 const meals = [
   {
+      name: 'BABS',
+      items: [],
+      type: 'breakfast',
+  },
+  {
+      name: 'chef salad',
+      items: [],
+      type: 'dinner',
+  },
+  {
       name: 'chili dog madness',
       items: [],
-      types: ['dinner'],
+      type: 'dinner',
   },
   {
       name: 'chunk chicken tacos',
       items: [],
-      types: ['dinner'],
+      type: 'dinner',
+  },
+  {
+      name: 'crumble tacos',
+      items: [],
+      type: 'dinner',
+  },
+  {
+      name: 'egg salad',
+      items: [],
+      type: 'breakfast',
+  },
+  {
+      name: 'hamburger helper',
+      items: [],
+      type: 'dinner',
   },
   {
       name: 'grilled chicken',
       items: [],
-      type: ['dinner', 'lunch'],
+      type: 'dinner',
+  },
+  {
+      name: 'hot wing chicken sandwhiches',
+      items: [],
+      type: 'dinner',
+  },
+  {
+      name: 'leftovers',
+      items: [],
+      type: '',
+  },
+  {
+      name: 'pasta a la homer',
+      items: [],
+      type: 'dinner',
+  },
+  {
+      name: 'pasta - marinara',
+      items: [],
+      type: 'dinner',
+  },
+  {
+      name: 'shredded beef tacos',
+      items: [],
+      type: 'dinner',
+  },
+  {
+      name: 'shredded chicken tacos',
+      items: [],
+      type: 'dinner',
   },
 ];
 
@@ -26,7 +81,7 @@ const getSuggestions = value => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    return inputLength === 0 ? [] : meals.filter(meal =>
+    return inputLength === 0 ? [...meals] : meals.filter(meal =>
         meal.name.toLowerCase().slice(0, inputLength) === inputValue
     );
 };
@@ -49,12 +104,14 @@ class DayOptions extends Component {
 
 	    this.state = {
 	        value: '',
-	        suggestions: [],
+	        suggestions: [...meals],
+	        filterByMealType: true,
 	    };
 
 	    this.onChange = this.onChange.bind(this);
 	    this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
 	    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
+	    this.typeOnChange = this.typeOnChange.bind(this);
 	}
 
 	onChange(event, { newValue }) {
@@ -74,13 +131,19 @@ class DayOptions extends Component {
 	// Autosuggest will call this function every time you need to clear suggestions.
 	onSuggestionsClearRequested() {
 	    this.setState({
-	        suggestions: [],
+	        suggestions: [...meals],
+	    });
+	};
+
+	typeOnChange(event) {
+	    this.setState({
+	        filterByMealType: event.currentTarget.checked,
 	    });
 	};
 
     render() {
         const { mealSelectorOptions } = this.props;
-	    const { value, suggestions } = this.state;
+	    const { value, suggestions, filterByMealType } = this.state;
 
 	    // Autosuggest will pass through all these props to the input.
 	    const inputProps = {
@@ -93,15 +156,16 @@ class DayOptions extends Component {
             <Page>
                 <p>{mealSelectorOptions.day} {mealSelectorOptions.meal}</p>
                 <div>
-                    <input id="filterByMealType" type="checkbox" /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
+                    <input id="filterByMealType" type="checkbox" checked={filterByMealType} onClick={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
                 </div>
                 <div className="dw-80 mlr-auto mTB1">
                   <Autosuggest
-			        suggestions={suggestions}
+			        suggestions={filterByMealType ? suggestions.filter(suggestion => suggestion.type === mealSelectorOptions.meal || suggestion.type === '') : suggestions}
 			        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 			        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
 			        getSuggestionValue={getSuggestionValue}
 			        renderSuggestion={renderSuggestion}
+			        alwaysRenderSuggestions={true}
 			        inputProps={inputProps}
 			      />
 			    </div>

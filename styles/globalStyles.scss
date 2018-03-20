@@ -7,14 +7,17 @@
 @import './global/forms';
 
 body {
-  font-family: arial, 'sans-serif';
+  font-family: 'Quicksand', arial, sans-serif;
   background: $site-bg;
   color: $primary-color;
   text-align: center;
   margin: 0;
   padding: 0;
-  font-family: Helvetica, arial, sans-serif;
   line-height: 1.5em;
+}
+
+h1 {
+  font-family: 'Questrial', arial, sans-serif;
 }
 
 a {
@@ -23,6 +26,10 @@ a {
 
 a:hover {
   color: $link-hover-color;
+}
+
+.caps {
+  text-transform: capitalize;
 }
 
 .cursorPointer {

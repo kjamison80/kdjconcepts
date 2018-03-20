@@ -4,6 +4,7 @@ label {
 }
 
 .ti,
+.react-autosuggest__input,
 select:not([multiple]) {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -33,7 +34,8 @@ select:not([multiple]) {
 .ti,
 .react-autosuggest__input {
   width: 100%;
-  padding: .438em .5em;
+  padding: .438em 0;
+  text-indent: .5em;
 
   &.auto-w {
     width: auto;
@@ -69,6 +71,32 @@ select:not([multiple]) {
   &:focus {
     border-color: $form-input-color;
   }
+}
+
+.react-autosuggest__input,
+.react-autosuggest__suggestions-container--open {
+  max-width: 30em;
+  margin-left: auto;
+  margin-right: auto;
+  text-transform: capitalize;
+}
+
+.react-autosuggest__suggestions-container ul {
+  margin: .5em 0;
+  padding: 0;
+  height: 17.5em;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.react-autosuggest__suggestions-container ul li {
+  padding: .25em .5em;
+  border-bottom: 1px dotted rgba(255, 255, 255, .1);
+}
+
+.react-autosuggest__suggestions-container--open {
+  background: #4a4a4a;
+  border-radius: 3px;
 }
 
 .react-autosuggest__suggestions-list {

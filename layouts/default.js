@@ -15,6 +15,7 @@ export default ({ children }) => (
           <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
           <link href="/static/index.css" rel="stylesheet" />
           <link href="/static/index2.css" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Questrial|Quicksand" rel="stylesheet" />
       </Head>
       <Header />
       {children}

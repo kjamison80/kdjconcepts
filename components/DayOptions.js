@@ -17,7 +17,7 @@ class DayOptions extends Component {
             <div key={`plan_${day.toLowerCase()}`} className="col text-left">
                 <div style={{ margin: '.5em', padding: '0 .5em', background: '#ffffff', height: '11em', border: '1px solid red' }}>
                     <p>{day} ({dayQty})</p>
-                    {meals.map(meal => <p key={`${day}_${meal}`} className="cursorPointer" onClick={() => this.setMealSelectorOptions(day, meal)}>{meal}:</p>)};
+                    {meals.map(meal => <p key={`${day}_${meal}`} className="cursorPointer caps" onClick={() => this.setMealSelectorOptions(day, meal)}>{meal}:</p>)};
                 </div>
             </div>
         ));
