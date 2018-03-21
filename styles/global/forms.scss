@@ -79,6 +79,10 @@ select:not([multiple]) {
   position: relative;
 }
 
+.react-autosuggest__input {
+  text-transform: capitalize;
+}
+
 .clearAutosuggestions {
   position: absolute;
   right: 0;
@@ -117,4 +121,35 @@ select:not([multiple]) {
 
 .react-autosuggest__suggestion {
   cursor: pointer;
+}
+
+.dayOptions {
+  margin: .5em;
+  padding: 0 .5em;
+  background: #ffffff;
+  height: 14em;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  font-size: 85%;
+}
+
+.dayHeading {
+  margin: 0 -.5em;
+  background: #777;
+  padding: .5em;
+  border-radius: 3px;
+}
+
+.meal {
+  font-size: 75%;
+}
+
+.mealPlan {
+  border-bottom: 1px dotted #ccc;
+  line-height: 1.35em;
+  padding: .5em 0;
+}
+
+.mealPlan:last-child {
+  border-bottom: 0;
 }

@@ -5,7 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 const exampleInitialState = {
     dayQty: 7,
     daysToPlan: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
-    plannedDays: {},
+    plannedMeals: {},
     mealSelectorOptions: {
         display: false,
         day: 'sunday',
@@ -16,6 +16,7 @@ const exampleInitialState = {
 export const actionTypes = {
     SET_DAY_QTY: 'set_day_qty',
     SET_MEAL_SELECTOR_OPTIONS: 'set_meal_selector_options',
+    SET_PLANNED_MEAL: 'set_planned_meal',
 };
 
 // REDUCERS
@@ -25,6 +26,8 @@ export const reducer = (state = exampleInitialState, actions) => {
             return { ...state, dayQty: actions.payload };
         case actionTypes.SET_MEAL_SELECTOR_OPTIONS:
             return { ...state, mealSelectorOptions: actions.payload };
+        case actionTypes.SET_PLANNED_MEAL:
+            return { ...state, plannedMeals: actions.payload };
         default: return state;
     }
 };
@@ -40,10 +43,22 @@ export const setDayQty = qty => dispatch => dispatch({ type: actionTypes.SET_DAY
 
 /**
  * Sets display state of meal selector
- * @param shouldDisplay
+ * @param options
  * @returns {function(dispatch)}
  */
 export const setMealSelectorOptions = options => dispatch => dispatch({ type: actionTypes.SET_MEAL_SELECTOR_OPTIONS, payload: options });
+
+/**
+ * Sets the planned meals
+ * @param plan
+ * @param curr
+ * @returns {function(dispatch)}
+ */
+export const setPlannedMeal = (day, plan, curr) => dispatch => {
+    const updatedPlannedMeals = { ...curr };
+    updatedPlannedMeals[day] = { ...curr[day], ...plan };
+    return dispatch({ type: actionTypes.SET_PLANNED_MEAL, payload: updatedPlannedMeals });
+};
 
 /**
  * Initializes the store

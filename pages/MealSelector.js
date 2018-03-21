@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import withRedux from 'next-redux-wrapper';
+import { bindActionCreators } from 'redux';
 import Autosuggest from 'react-autosuggest';
 import Page from '../layouts/default';
+import { initStore, setMealSelectorOptions, setPlannedMeal } from '../stores/grocery';
 
 const meals = [
   {
@@ -113,6 +116,8 @@ class DayOptions extends Component {
 	    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
 	    this.handleClearInputClick = this.handleClearInputClick.bind(this);
 	    this.typeOnChange = this.typeOnChange.bind(this);
+	    this.handleDoneClick = this.handleDoneClick.bind(this);
+	    this.setMealSelectorOptions = this.setMealSelectorOptions.bind(this);
 	}
 
 	onChange(event, { newValue }) {
@@ -150,6 +155,16 @@ class DayOptions extends Component {
 	    });
 	};
 
+	handleDoneClick(day, meal, event) {
+		this.props.setPlannedMeal(day, { [meal]: this.state.value }, this.props.plannedMeals);
+
+		this.setMealSelectorOptions();
+	}
+
+	setMealSelectorOptions() {
+		this.props.setMealSelectorOptions({ display: false });
+	}
+
     render() {
         const { mealSelectorOptions } = this.props;
 	    const { value, suggestions, filterByMealType } = this.state;
@@ -184,12 +199,18 @@ class DayOptions extends Component {
 			        		focusInputOnSuggestionClick={false}
 			      		/>
 			        </div>
+			        <button onClick={() => this.handleDoneClick(mealSelectorOptions.day, mealSelectorOptions.meal)}>Done</button>
 			    </div>
             </Page>
         );
     }
 }
 
-const mapStateToProps = ({ mealSelectorOptions }) => ({ mealSelectorOptions });
+const mapStateToProps = ({ mealSelectorOptions, plannedMeals }) => ({ mealSelectorOptions, plannedMeals });
 
-export default connect(mapStateToProps, null)(DayOptions);
+const mapDispatchToProps = dispatch => ({
+    setMealSelectorOptions: bindActionCreators(setMealSelectorOptions, dispatch),
+    setPlannedMeal: bindActionCreators(setPlannedMeal, dispatch),
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DayOptions);

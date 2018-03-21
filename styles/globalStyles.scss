@@ -16,10 +16,6 @@ body {
   line-height: 1.5em;
 }
 
-h1 {
-  font-family: 'Questrial', arial, sans-serif;
-}
-
 a {
   color: $link-color;
 }
@@ -28,8 +24,16 @@ a:hover {
   color: $link-hover-color;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .caps {
   text-transform: capitalize;
+}
+
+.upper-case {
+  text-transform: uppercase;
 }
 
 .cursorPointer {
