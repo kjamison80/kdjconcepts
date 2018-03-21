@@ -100,7 +100,7 @@ select:not([multiple]) {
 .react-autosuggest__suggestions-container ul {
   margin: .5em 0;
   padding: 0;
-  height: 17.5em;
+  height: 15.5em;
   overflow-y: auto;
   text-align: left;
 }
@@ -144,10 +144,19 @@ select:not([multiple]) {
   font-size: 75%;
 }
 
+.mealType {
+  color: #aaa;
+}
+
 .mealPlan {
   border-bottom: 1px dotted #ccc;
   line-height: 1.35em;
   padding: .5em 0;
+  color: #333;
+}
+
+.mealPlaceHolder {
+  color: transparent;
 }
 
 .mealPlan:last-child {

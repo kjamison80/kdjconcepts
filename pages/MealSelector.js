@@ -6,11 +6,73 @@ import Autosuggest from 'react-autosuggest';
 import Page from '../layouts/default';
 import { initStore, setMealSelectorOptions, setPlannedMeal } from '../stores/grocery';
 
+// tables: items
+const items = [
+	1: {
+		id: 1,
+	    name: 'bagel',
+	    category: 'bread',
+	    typicalPackageQty: 6,
+	},
+	2: {
+		id: 2,
+	    name: 'bacon',
+	    category: 'meat',
+	    typicalPackageQty: 12,
+	},
+	3: {
+		id: 3,
+	    name: 'eggs',
+	    category: 'refrigerated',
+	    typicalPackageQty: 12,
+	}
+];
+// tables: meals, mealItems, mealTypeIds
+const mealsDbData = {
+	1: {
+		id: 1,
+		name: 'BABS',
+		type: 1,
+	}
+};
+const mealItemsDbData = {
+	1: {
+		id: 1,
+		mealId: 1,
+		name: 'bagel',
+	},
+	2: {
+		id: 2,
+		mealId: 1,
+		name: 'bacon',
+	}
+};
+const mealTypeIdsDbData = {
+	1: 'breakfast',
+	2: 'lunch',
+	3: 'dinner',
+};
+
+// take data from tables and return meals array
 const meals = [
   {
+      id: 1,
       name: 'BABS',
-      items: [],
-      type: 'breakfast',
+      items: [
+	    {
+	      	qty: 1,
+	      	id: 1,
+	    },
+	    {
+	      	qty: 2,
+	      	id: 2,
+	    },
+	    {
+	      	qty: 2,
+	      	id: 3,
+	    },
+      ],
+      type: 'breakfast', //maybe make this type id instead
   },
   {
       name: 'chef salad',
