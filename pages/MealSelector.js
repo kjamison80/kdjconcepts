@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { bindActionCreators } from 'redux';
 import Autosuggest from 'react-autosuggest';
-import Page from '../layouts/default';
+import { CSSTransition, transit } from "react-css-transition";
 import { initStore, setMealSelectorOptions, setPlannedMeal } from '../stores/grocery';
 
 // tables: items
@@ -171,6 +171,7 @@ class DayOptions extends Component {
 	        value: '',
 	        suggestions: [...meals],
 	        filterByMealType: true,
+	        mounted: true,
 	    };
 
 	    this.onChange = this.onChange.bind(this);
@@ -179,14 +180,14 @@ class DayOptions extends Component {
 	    this.handleClearInputClick = this.handleClearInputClick.bind(this);
 	    this.typeOnChange = this.typeOnChange.bind(this);
 	    this.handleDoneClick = this.handleDoneClick.bind(this);
-	    this.setMealSelectorOptions = this.setMealSelectorOptions.bind(this);
+	    this.onTransitionComplete = this.onTransitionComplete.bind(this);
 	}
 
 	onChange(event, { newValue }) {
 	    this.setState({
 	        value: newValue,
 	    });
-	};
+	}
 
 	// Autosuggest will call this function every time you need to update suggestions.
 	// You already implemented this logic above, so just use it.
@@ -194,7 +195,7 @@ class DayOptions extends Component {
 	    this.setState({
 	        suggestions: getSuggestions(value),
 	    });
-	};
+	}
 
 	// Autosuggest will call this function every time you need to clear suggestions.
 	// Commented out the setting of the state for now cause it was clearing suggestions on blur
@@ -202,7 +203,7 @@ class DayOptions extends Component {
 	    // this.setState({
 	    //     suggestions: [...meals],
 	    // });
-	};
+	}
 
 	handleClearInputClick() {
 		this.setState({
@@ -215,21 +216,25 @@ class DayOptions extends Component {
 	    this.setState({
 	        filterByMealType: event.currentTarget.checked,
 	    });
-	};
+	}
 
 	handleDoneClick(day, meal, event) {
 		this.props.setPlannedMeal(day, { [meal]: this.state.value }, this.props.plannedMeals);
 
-		this.setMealSelectorOptions();
+		this.setState({
+			mounted: false,
+		});
 	}
 
-	setMealSelectorOptions() {
-		this.props.setMealSelectorOptions({ display: false });
+	onTransitionComplete() {
+		if (!this.state.mounted) {
+	        this.props.setMealSelectorOptions({ display: false });
+	    }
 	}
 
     render() {
         const { mealSelectorOptions } = this.props;
-	    const { value, suggestions, filterByMealType } = this.state;
+	    const { value, suggestions, filterByMealType, mounted } = this.state;
 
 	    // Autosuggest will pass through all these props to the input.
 	    const inputProps = {
@@ -239,31 +244,54 @@ class DayOptions extends Component {
 	    };
 
         return (
-            <Page>
-                <p>{mealSelectorOptions.day} {mealSelectorOptions.meal}</p>
-                <div>
-                    <input id="filterByMealType" type="checkbox" checked={filterByMealType} onClick={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
-                	
-                </div>
-                <div className="dw-80 mlr-auto mTB1">
-                	<div className="mealPicker mlr-auto">
-                		{value && (
-			    			<button onClick={this.handleClearInputClick} className="clearAutosuggestions">x</button>
-			    		)}
-                		<Autosuggest
-			        		suggestions={filterByMealType ? suggestions.filter(suggestion => suggestion.type === mealSelectorOptions.meal || suggestion.type === '') : suggestions}
-			        		onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-			        		onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-			        		getSuggestionValue={getSuggestionValue}
-			        		renderSuggestion={renderSuggestion}
-			        		alwaysRenderSuggestions={true}
-			        		inputProps={inputProps}
-			        		focusInputOnSuggestionClick={false}
-			      		/>
-			        </div>
-			        <button onClick={() => this.handleDoneClick(mealSelectorOptions.day, mealSelectorOptions.meal)}>Done</button>
-			    </div>
-            </Page>
+            <CSSTransition
+                className="p-fixed full-screen modal-overlay"
+                defaultStyle={{ opacity: 0, top: '100%' }}
+                enterStyle={{ opacity: transit(1, 200, 'ease-in-out'), top: transit(0, 200, 'ease-in') }}
+                leaveStyle={{ top: transit('100%', 200, 'ease-in') }}
+                activeStyle={{ opacity: 1, top: 0 }}
+                transitionDelay={{ enter: 0, leave: 170 }}
+                active={mounted}
+                transitionAppear
+	            onTransitionComplete={this.onTransitionComplete}
+            >
+	            <CSSTransition
+	            	className="p-fixed modal-window"
+	                defaultStyle={{ opacity: 0, transform: 'scale(.5, .5)' }}
+	                enterStyle={{ opacity: transit(1, 150, 'ease-in-out'), transform: transit('scale(1, 1)', 100, 'ease-in-out') }}
+	                leaveStyle={{ opacity: transit(0, 150, 'ease-in-out'), transform: transit('scale(.5, .5)', 100, 'ease-in-out') }}
+	                activeStyle={{ opacity: 1, transform: 'scale(1, 1)' }}
+	                transitionDelay={{ enter: 170, leave: 0 }}
+	                active={mounted}
+	                transitionAppear
+	            >
+	                <p className="caps">
+	                	<span className="upper-case bold">{mealSelectorOptions.day}:</span> {mealSelectorOptions.meal}
+	                </p>
+	                <div>
+	                    <input id="filterByMealType" type="checkbox" checked={filterByMealType} onClick={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
+	                	
+	                </div>
+	                <div className="dw-80 mlr-auto mTB1">
+	                	<div className="mealPicker mlr-auto">
+	                		{value && (
+				    			<button onClick={this.handleClearInputClick} className="clearAutosuggestions">x</button>
+				    		)}
+	                		<Autosuggest
+				        		suggestions={filterByMealType ? suggestions.filter(suggestion => suggestion.type === mealSelectorOptions.meal || suggestion.type === '') : suggestions}
+				        		onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+				        		onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+				        		getSuggestionValue={getSuggestionValue}
+				        		renderSuggestion={renderSuggestion}
+				        		alwaysRenderSuggestions={true}
+				        		inputProps={inputProps}
+				        		focusInputOnSuggestionClick={false}
+				      		/>
+				        </div>
+				        <button onClick={() => this.handleDoneClick(mealSelectorOptions.day, mealSelectorOptions.meal)}>Done</button>
+				    </div>
+	            </CSSTransition>
+            </CSSTransition>
         );
     }
 }
@@ -271,7 +299,7 @@ class DayOptions extends Component {
 const mapStateToProps = ({ mealSelectorOptions, plannedMeals }) => ({ mealSelectorOptions, plannedMeals });
 
 const mapDispatchToProps = dispatch => ({
-    setMealSelectorOptions: bindActionCreators(setMealSelectorOptions, dispatch),
+	setMealSelectorOptions: bindActionCreators(setMealSelectorOptions, dispatch),
     setPlannedMeal: bindActionCreators(setPlannedMeal, dispatch),
 });
 

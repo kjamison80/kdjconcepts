@@ -49,7 +49,7 @@ export const setDayQty = qty => dispatch => dispatch({ type: actionTypes.SET_DAY
 export const setMealSelectorOptions = options => dispatch => dispatch({ type: actionTypes.SET_MEAL_SELECTOR_OPTIONS, payload: options });
 
 /**
- * Sets the planned meals
+ * Sets the planned meals for selected day and meal type
  * @param plan
  * @param curr
  * @returns {function(dispatch)}

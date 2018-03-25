@@ -40,6 +40,30 @@ a:hover {
   cursor: pointer;
 }
 
+.modal-overlay {
+  background: rgba(0, 0, 0, .9);
+}
+
+.modal-window {
+  top: 4em;
+  bottom: 4em;
+  right: 10%;
+  left: 10%;
+  background: #333;
+  overflow: auto;
+}
+
+.p-fixed {
+  position: fixed;
+}
+
+.full-screen {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .block {
   display: block;
 }
@@ -53,3 +77,5 @@ a:hover {
   margin-top: 1em;
   margin-bottom: 1em;
 }
+
+@import './global/mq_md';

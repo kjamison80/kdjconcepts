@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import 'isomorphic-unfetch';
 import withRedux from 'next-redux-wrapper';
 import { bindActionCreators } from 'redux';
+import Link from 'next/link'
 import Page from '../layouts/default';
 import { initStore, setDayQty } from '../stores/grocery';
 import DayOptions from '../components/DayOptions';
@@ -16,11 +17,12 @@ export class MyPage extends Component {
         const { dayQty, daysToPlan, mealSelectorOptions } = this.props;
         const days = [...daysToPlan];
 
-        if (mealSelectorOptions.display) {
-            return <MealSelector />
-        } else {
-            return (
-                <Page>
+        return (
+            <Page>
+                {mealSelectorOptions.display && (
+                    <MealSelector/>
+                )}
+                <div style={{padding: '0 3%'}}>
                     <div className="col-wrap dw-50 tw-100">
                         <div className="col">
                             <label htmlFor="shoppingDay" className="block">Planned Shopping Day</label>
@@ -33,13 +35,14 @@ export class MyPage extends Component {
                             <input className="ti qty" type="number" defaultValue={dayQty} onChange={e => this.setDayQty(e)} />
                         </div>
                     </div>
-                    <hr />
+                    <hr style={{margin: '1em .5em'}} />
                     <div className="col-wrap d-4col t-2col m-1col">
                         <DayOptions />
                     </div>
-                </Page>
-            );
-        }
+                    <Link prefetch href="/"><a>Home</a></Link>
+                </div>
+            </Page>
+        );
     }
 }
 
