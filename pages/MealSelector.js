@@ -272,7 +272,7 @@ class DayOptions extends Component {
 	                    <input id="filterByMealType" type="checkbox" checked={filterByMealType} onClick={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
 	                	
 	                </div>
-	                <div className="dw-80 mlr-auto mTB1">
+	                <div className="dw-80 mw-90 mlr-auto mTB1">
 	                	<div className="mealPicker mlr-auto">
 	                		{value && (
 				    			<button onClick={this.handleClearInputClick} className="clearAutosuggestions">x</button>

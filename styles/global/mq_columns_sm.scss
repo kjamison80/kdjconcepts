@@ -16,6 +16,11 @@
 		width: 25%;
 	}
 
+	.col-wrap.mw-10 > .col,
+	.mw-10:not(.col-wrap) {
+		width: 10%;
+	}
+
 	.col-wrap.mw-20 > .col,
 	.mw-20:not(.col-wrap) {
 		width: 20%;
@@ -49,6 +54,11 @@
 	.col-wrap.mw-80 > .col,
 	.mw-80:not(.col-wrap) {
 		width: 80%;
+	}
+
+	.col-wrap.mw-90 > .col,
+	.mw-90:not(.col-wrap) {
+		width: 90%;
 	}
 
 	.col-wrap.mw-100 > .col,
