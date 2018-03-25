@@ -218,8 +218,8 @@ class DayOptions extends Component {
 	    });
 	}
 
-	handleDoneClick(day, meal, event) {
-		this.props.setPlannedMeal(day, { [meal]: this.state.value }, this.props.plannedMeals);
+	handleDoneClick(key, day, meal, event) {
+		this.props.setPlannedMeal(key, day, { [meal]: this.state.value }, this.props.plannedMeals);
 
 		this.setState({
 			mounted: false,
@@ -261,7 +261,7 @@ class DayOptions extends Component {
 	                enterStyle={{ opacity: transit(1, 150, 'ease-in-out'), transform: transit('scale(1, 1)', 100, 'ease-in-out') }}
 	                leaveStyle={{ opacity: transit(0, 150, 'ease-in-out'), transform: transit('scale(.5, .5)', 100, 'ease-in-out') }}
 	                activeStyle={{ opacity: 1, transform: 'scale(1, 1)' }}
-	                transitionDelay={{ enter: 170, leave: 0 }}
+	                transitionDelay={{ enter: 180, leave: 0 }}
 	                active={mounted}
 	                transitionAppear
 	            >
@@ -288,7 +288,7 @@ class DayOptions extends Component {
 				        		focusInputOnSuggestionClick={false}
 				      		/>
 				        </div>
-				        <button onClick={() => this.handleDoneClick(mealSelectorOptions.day, mealSelectorOptions.meal)}>Done</button>
+				        <button onClick={() => this.handleDoneClick(mealSelectorOptions.key, mealSelectorOptions.day, mealSelectorOptions.meal)}>Done</button>
 				    </div>
 	            </CSSTransition>
             </CSSTransition>
