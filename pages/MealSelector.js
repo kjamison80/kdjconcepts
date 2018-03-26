@@ -245,7 +245,7 @@ class DayOptions extends Component {
 
         return (
             <CSSTransition
-                className="p-fixed full-screen modal-overlay"
+                className="p-fix full-screen modal-overlay"
                 defaultStyle={{ opacity: 0, top: '100%' }}
                 enterStyle={{ opacity: transit(1, 200, 'ease-in-out'), top: transit(0, 200, 'ease-in') }}
                 leaveStyle={{ top: transit('100%', 200, 'ease-in') }}
@@ -256,7 +256,7 @@ class DayOptions extends Component {
 	            onTransitionComplete={this.onTransitionComplete}
             >
 	            <CSSTransition
-	            	className="p-fixed modal-window"
+	            	className="p-abs modal-window"
 	                defaultStyle={{ opacity: 0, transform: 'scale(.5, .5)' }}
 	                enterStyle={{ opacity: transit(1, 150, 'ease-in-out'), transform: transit('scale(1, 1)', 100, 'ease-in-out') }}
 	                leaveStyle={{ opacity: transit(0, 150, 'ease-in-out'), transform: transit('scale(.5, .5)', 100, 'ease-in-out') }}
