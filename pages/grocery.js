@@ -18,9 +18,8 @@ export class MyPage extends Component {
     
     setDayQty(e) {
         const { daysToPlan, setDayQty, updateDaysToPlan } = this.props;
-        const qty = parseInt(e.currentTarget.value, 10);
-
-        // TODO: there is still a bug where if day is set to not default 'sunday' and you backspace in the qty input to blank, then day resets but dropdown does not.
+        const qty = e.currentTarget.value !== '' ? parseInt(e.currentTarget.value, 10) : 1;
+        
         setDayQty(qty);
         updateDaysToPlan(this.props.daysToPlan, qty);
     }
