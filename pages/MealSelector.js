@@ -4,29 +4,8 @@ import withRedux from 'next-redux-wrapper';
 import { bindActionCreators } from 'redux';
 import Autosuggest from 'react-autosuggest';
 import { CSSTransition, transit } from "react-css-transition";
-import { initStore, setMealSelectorOptions, setPlannedMeal } from '../stores/grocery';
+import { initStore, setMealSelectorOptions, setPlannedMeal, updateMealGroceryList } from '../stores/grocery';
 
-// tables: items
-const items = [
-	1: {
-		id: 1,
-	    name: 'bagel',
-	    category: 'bread',
-	    typicalPackageQty: 6,
-	},
-	2: {
-		id: 2,
-	    name: 'bacon',
-	    category: 'meat',
-	    typicalPackageQty: 12,
-	},
-	3: {
-		id: 3,
-	    name: 'eggs',
-	    category: 'refrigerated',
-	    typicalPackageQty: 12,
-	}
-];
 // tables: meals, mealItems, mealTypeIds
 const mealsDbData = {
 	1: {
@@ -35,6 +14,8 @@ const mealsDbData = {
 		type: 1,
 	}
 };
+
+// This would be on save
 const mealItemsDbData = {
 	1: {
 		id: 1,
@@ -183,6 +164,20 @@ class DayOptions extends Component {
 	    this.onTransitionComplete = this.onTransitionComplete.bind(this);
 	}
 
+	componentWillUnmount() {
+		const { items, plannedMeals, mealGroceryList, updateMealGroceryList } = this.props;
+		// console.log(plannedMeals);
+		const mealItems = Object.keys(plannedMeals).map(meal => Object.keys(plannedMeals[meal]).map(m => plannedMeals[meal][m]));
+		// console.log(mealItems);
+		updateMealGroceryList(mealGroceryList, [
+			{ id: 3, name: 'eggs', category: 'refrigerated', qty: 1 },
+			{ id: 2, name: 'bacon', category: 'meat', qty: 1 },
+			{ id: 1, name: 'bagels', category: 'bread', qty: 1 },
+			{ id: 2, name: 'bacon', category: 'meat', qty: 1 },
+		]);
+		// console.log(items);
+	}
+
 	onChange(event, { newValue }) {
 	    this.setState({
 	        value: newValue,
@@ -218,8 +213,10 @@ class DayOptions extends Component {
 	    });
 	}
 
-	handleDoneClick(key, day, meal, event) {
-		this.props.setPlannedMeal(key, day, { [meal]: this.state.value }, this.props.plannedMeals);
+	handleDoneClick(key, day, meal) {
+		const { setPlannedMeal, plannedMeals } = this.props;
+
+		setPlannedMeal(key, day, { [meal]: { id: 1, name: this.state.value } }, plannedMeals);
 
 		this.setState({
 			mounted: false,
@@ -242,6 +239,10 @@ class DayOptions extends Component {
 	        value,
 	        onChange: this.onChange,
 	    };
+
+		CSSTransition.childContextTypes = {
+	    	// this prevents error and can be empty
+		};
 
         return (
             <CSSTransition
@@ -269,7 +270,7 @@ class DayOptions extends Component {
 	                	<span className="upper-case bold">{mealSelectorOptions.day}:</span> {mealSelectorOptions.meal}
 	                </p>
 	                <div>
-	                    <input id="filterByMealType" type="checkbox" checked={filterByMealType} onClick={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
+	                    <input id="filterByMealType" type="checkbox" checked={filterByMealType} onChange={e => this.typeOnChange(e)} /> <label htmlFor="filterByMealType" className="cursorPointer">Filber by meal type</label>
 	                	
 	                </div>
 	                <div className="dw-80 mw-90 mlr-auto mTB1">
@@ -296,11 +297,12 @@ class DayOptions extends Component {
     }
 }
 
-const mapStateToProps = ({ mealSelectorOptions, plannedMeals }) => ({ mealSelectorOptions, plannedMeals });
+const mapStateToProps = ({ items, mealSelectorOptions, plannedMeals, mealGroceryList }) => ({ items, mealSelectorOptions, plannedMeals, mealGroceryList });
 
 const mapDispatchToProps = dispatch => ({
 	setMealSelectorOptions: bindActionCreators(setMealSelectorOptions, dispatch),
     setPlannedMeal: bindActionCreators(setPlannedMeal, dispatch),
+    updateMealGroceryList: bindActionCreators(updateMealGroceryList, dispatch),
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DayOptions);

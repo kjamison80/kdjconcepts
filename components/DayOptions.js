@@ -7,7 +7,8 @@ import { initStore, setMealSelectorOptions } from '../stores/grocery';
 
 class DayOptions extends Component {
     setMealSelectorOptions(day, meal, key) {
-        this.props.setMealSelectorOptions({ display: true, day, meal, key });
+        const { setMealSelectorOptions } = this.props;
+        setMealSelectorOptions({ display: true, day, meal, key });
     }
 
     render() {
@@ -23,8 +24,8 @@ class DayOptions extends Component {
                             <span className="meal block bold upper-case mealType">
                                 {meal}:
                             </span>
-                            <Textfit className="block" mode="single" max="16">
-                                {plannedMeals[dayIndex] && plannedMeals[dayIndex][meal] ? plannedMeals[dayIndex][meal] : <span className="mealPlaceHolder">!</span>}
+                            <Textfit className="block" mode="single" max={16}>
+                                {plannedMeals[dayIndex] && plannedMeals[dayIndex][meal] ? plannedMeals[dayIndex][meal].name : <span className="mealPlaceHolder">!</span>}
                             </Textfit>
                         </div>
                     ))}
