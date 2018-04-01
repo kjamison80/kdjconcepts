@@ -19,7 +19,7 @@ export class MyPage extends Component {
     setDayQty(e) {
         const { daysToPlan, setDayQty, updateDaysToPlan } = this.props;
         const qty = e.currentTarget.value !== '' ? parseInt(e.currentTarget.value, 10) : 1;
-        
+
         setDayQty(qty);
         updateDaysToPlan(this.props.daysToPlan, qty);
     }
@@ -49,7 +49,7 @@ export class MyPage extends Component {
                         </div>
                         <div className="col dw-50">
                             <label htmlFor="qtyDays" className="block">Shopping for how many days?</label>
-                            <input className="ti qty" type="number" defaultValue={dayQty} onChange={this.setDayQty} />
+                            <input className="ti qty" type="number" pattern="\d*" defaultValue={dayQty} onChange={this.setDayQty} />
                         </div>
                     </div>
                     <hr style={{margin: '1em .5em'}} />
@@ -57,6 +57,7 @@ export class MyPage extends Component {
                         <DayOptions />
                     </div>
                     <Link prefetch href="/"><a>Home</a></Link>
+                    <Link prefetch href="/list"><a>List</a></Link>
                 </div>
             </Page>
         );
