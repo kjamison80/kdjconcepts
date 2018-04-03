@@ -56,6 +56,13 @@ const renderSuggestion = suggestion => (
     </div>
 );
 
+
+const flatten = (arr) => {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
+
 class DayOptions extends Component {
 	constructor(props) {
 	    super(props);
@@ -85,12 +92,12 @@ class DayOptions extends Component {
 		const { items, plannedMeals, mealGroceryList, updateMealGroceryList, meals } = this.props;
 		const mealItems = Object.keys(plannedMeals).map(meal => {
 			return Object.keys(plannedMeals[meal]).map(m => meals[plannedMeals[meal][m].name.toLowerCase().replace(/\W/g, '')].items.map(item => {
-				return items[item.id];
+				return { ...items[item.id], qty: item.qty };
 			}));
 		});
-		const mergedItems = [].concat.apply([], mealItems);
-		const mergedItems2 = [].concat.apply([], mergedItems);
-		updateMealGroceryList(mealGroceryList, mergedItems2);
+		const mergedItems = flatten(mealItems);
+
+		updateMealGroceryList(mealGroceryList, mergedItems);
 	}
 
 	onChange(event, { newValue }) {

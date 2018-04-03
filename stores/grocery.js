@@ -102,21 +102,18 @@ const items = {
         name: 'bagel',
         category: 'bread',
         typicalPackageQty: 6,
-        qty: 1,
     },
     2: {
         id: 2,
         name: 'bacon',
         category: 'meat',
         typicalPackageQty: 12,
-        qty: 1,
     },
     3: {
         id: 3,
         name: 'eggs',
         category: 'refrigerated',
         typicalPackageQty: 12,
-        qty: 1,
     },
 };
 
@@ -273,7 +270,7 @@ const updateList = (list, items) => {
         if (typeof finalList[listItem.id] === 'undefined') {
             return { ...finalList, [listItem.id]: { ...listItem } };
         } else {
-            finalList[listItem.id].qty += 1;
+            finalList[listItem.id].qty += listItem.qty;
             return { ...finalList };
         }
     }, {});
@@ -292,7 +289,7 @@ export const mergeLists = (list, mealList) => dispatch => {
         if (typeof finalList[mealListItemKey] === 'undefined') {
             return { ...finalList, [mealListItemKey]: { ...mealList[mealListItemKey] } };
         } else {
-            finalList[mealListItemKey].qty += 1;
+            finalList[mealListItemKey].qty += mealList[mealListItemKey].qty;
             return { ...finalList };
         }
     }, { ...list });
