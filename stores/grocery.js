@@ -2,39 +2,139 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 
+// take data from tables and return meals array
+const meals = {
+  babs: {
+      id: 1,
+      name: 'BABS',
+      items: [
+        {
+            qty: 1,
+            id: 1,
+        },
+        {
+            qty: 2,
+            id: 2,
+        },
+        {
+            qty: 2,
+            id: 3,
+        },
+      ],
+      type: 'breakfast', //maybe make this type id instead
+  },
+  chefsalad: {
+      name: 'chef salad',
+      items: [
+        {
+            qty: 2,
+            id: 3,
+        },
+      ],
+      type: 'dinner',
+  },
+  chilidogmadness: {
+      name: 'chili dog madness',
+      items: [],
+      type: 'dinner',
+  },
+  chunkchickentacos: {
+      name: 'chunk chicken tacos',
+      items: [],
+      type: 'dinner',
+  },
+  crumbletacos: {
+      name: 'crumble tacos',
+      items: [],
+      type: 'dinner',
+  },
+  eggsalad: {
+      name: 'egg salad',
+      items: [],
+      type: 'breakfast',
+  },
+  hambrugerhelper: {
+      name: 'hamburger helper',
+      items: [],
+      type: 'dinner',
+  },
+  grilledchicken: {
+      name: 'grilled chicken',
+      items: [],
+      type: 'dinner',
+  },
+  hotwingchickensandwiches: {
+      name: 'hot wing chicken sandwiches',
+      items: [],
+      type: 'dinner',
+  },
+  leftovers: {
+      name: 'leftovers',
+      items: [],
+      type: '',
+  },
+  pastaalahomer: {
+      name: 'pasta a la homer',
+      items: [],
+      type: 'dinner',
+  },
+  pastamarinara: {
+      name: 'pasta - marinara',
+      items: [],
+      type: 'dinner',
+  },
+  shreddedbeeftacos: {
+      name: 'shredded beef tacos',
+      items: [],
+      type: 'dinner',
+  },
+  shreddedchickentacos: {
+      name: 'shredded chicken tacos',
+      items: [],
+      type: 'dinner',
+  },
+};
+
+// should be fetched from db: tables: items
+const items = {
+    1: {
+        id: 1,
+        name: 'bagel',
+        category: 'bread',
+        typicalPackageQty: 6,
+        qty: 1,
+    },
+    2: {
+        id: 2,
+        name: 'bacon',
+        category: 'meat',
+        typicalPackageQty: 12,
+        qty: 1,
+    },
+    3: {
+        id: 3,
+        name: 'eggs',
+        category: 'refrigerated',
+        typicalPackageQty: 12,
+        qty: 1,
+    },
+};
+
 const initialState = {
     dayQty: 8,
     daysOfWeek: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
     daysToPlan: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
     plannedMeals: {},
     mealGroceryList: {},
-    groceryList: { 1: { id: 1, name: 'bagels', category: 'bread', qty: 2 } },
+    groceryList: {},
     mealSelectorOptions: {
         display: false,
         day: 'sunday',
         meal: 'breakfast'
     },
-    // should be fetched from db: tables: items
-    items: {
-        1: {
-            id: 1,
-            name: 'bagel',
-            category: 'bread',
-            typicalPackageQty: 6,
-        },
-        2: {
-            id: 2,
-            name: 'bacon',
-            category: 'meat',
-            typicalPackageQty: 12,
-        },
-        3: {
-            id: 3,
-            name: 'eggs',
-            category: 'refrigerated',
-            typicalPackageQty: 12,
-        }
-    }
+    items: {},
+    meals: {},
+    suggestedMealNames: [],
 };
 
 export const actionTypes = {
@@ -45,6 +145,9 @@ export const actionTypes = {
     UPDATE_START_DAY: 'update_start_day',
     UPDATE_MEAL_GROCERY_LIST: 'update_meal_grocery_list',
     UPDATE_GROCERY_LIST: 'update_grocery_list',
+    GET_ITEMS: 'get_items',
+    GET_SUGGESTED_MEAL_NAMES: 'get_suggested_meal_names',
+    GET_MEALS: 'get_meals',
 };
 
 // REDUCERS
@@ -64,6 +167,12 @@ export const reducer = (state = initialState, actions) => {
             return { ...state, mealGroceryList: actions.payload };
         case actionTypes.UPDATE_GROCERY_LIST:
             return { ...state, groceryList: actions.payload };
+        case actionTypes.GET_ITEMS:
+            return { ...state, items: actions.payload };
+        case actionTypes.GET_SUGGESTED_MEAL_NAMES:
+            return { ...state, suggestedMealNames: actions.payload };
+        case actionTypes.GET_MEALS:
+            return { ...state, meals: actions.payload };
         default: return state;
     }
 };
@@ -191,7 +300,34 @@ export const mergeLists = (list, mealList) => dispatch => {
     return dispatch({ type: actionTypes.UPDATE_GROCERY_LIST, payload: updatedList });
 };
 
-const sortListByCategory = (list) => {};
+// const sortListByCategory = (list) => {};
+
+/**
+* Gets all stored items
+* @returns {function(dispatch)}
+*/
+export const getItems = () => dispatch => {
+    return dispatch({ type: actionTypes.GET_ITEMS, payload: items });
+};
+
+/**
+* Gets all stored meals
+* @returns {function(dispatch)}
+*/
+export const getMeals = () => dispatch => {
+    return dispatch({ type: actionTypes.GET_MEALS, payload: meals });
+};
+
+/**
+* Gets all stored meal names and types for autosuggest
+* @returns {function(dispatch)}
+*/
+export const getSuggestedMealNames = (meals) => dispatch => {
+    const suggestedMeals = Object.keys(meals).map(mealKey => {
+        return { name: meals[mealKey].name, type: meals[mealKey].type };
+    });
+    return dispatch({ type: actionTypes.GET_SUGGESTED_MEAL_NAMES, payload: [...suggestedMeals] });
+};
 
 /**
  * Initializes the store

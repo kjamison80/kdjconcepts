@@ -4,7 +4,7 @@ import withRedux from 'next-redux-wrapper';
 import { bindActionCreators } from 'redux';
 import Link from 'next/link'
 import Page from '../layouts/default';
-import { initStore, setDayQty, updateDaysToPlan, updateStartDay } from '../stores/grocery';
+import { initStore, setDayQty, updateDaysToPlan, updateStartDay, getItems, getMeals, getSuggestedMealNames } from '../stores/grocery';
 import DayOptions from '../components/DayOptions';
 import MealSelector from './MealSelector';
 
@@ -14,6 +14,21 @@ export class MyPage extends Component {
 
         this.setDayQty = this.setDayQty.bind(this);
         this.updateStartDay = this.updateStartDay.bind(this);
+    }
+
+    componentDidMount() {
+        const { getItems, getMeals } = this.props;
+
+        getItems();
+        getMeals();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { meals, getSuggestedMealNames, suggestedMealNames } = this.props;
+
+        if (prevProps.meals !== meals) {
+            getSuggestedMealNames(meals);
+        }
     }
     
     setDayQty(e) {
@@ -64,12 +79,15 @@ export class MyPage extends Component {
     }
 }
 
-const mapStateToProps = ({ dayQty, daysOfWeek, daysToPlan, mealSelectorOptions }) => ({ dayQty, daysOfWeek, daysToPlan, mealSelectorOptions });
+const mapStateToProps = ({ dayQty, daysOfWeek, daysToPlan, mealSelectorOptions, meals }) => ({ dayQty, daysOfWeek, daysToPlan, mealSelectorOptions, meals });
 
 const mapDispatchToProps = dispatch => ({
     updateDaysToPlan: bindActionCreators(updateDaysToPlan, dispatch),
     updateStartDay: bindActionCreators(updateStartDay, dispatch),
     setDayQty: bindActionCreators(setDayQty, dispatch),
+    getItems: bindActionCreators(getItems, dispatch),
+    getMeals: bindActionCreators(getMeals, dispatch),
+    getSuggestedMealNames: bindActionCreators(getSuggestedMealNames, dispatch),
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyPage);

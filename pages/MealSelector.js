@@ -34,100 +34,12 @@ const mealTypeIdsDbData = {
 	3: 'dinner',
 };
 
-// take data from tables and return meals array
-const meals = [
-  {
-      id: 1,
-      name: 'BABS',
-      items: [
-	    {
-	      	qty: 1,
-	      	id: 1,
-	    },
-	    {
-	      	qty: 2,
-	      	id: 2,
-	    },
-	    {
-	      	qty: 2,
-	      	id: 3,
-	    },
-      ],
-      type: 'breakfast', //maybe make this type id instead
-  },
-  {
-      name: 'chef salad',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'chili dog madness',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'chunk chicken tacos',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'crumble tacos',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'egg salad',
-      items: [],
-      type: 'breakfast',
-  },
-  {
-      name: 'hamburger helper',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'grilled chicken',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'hot wing chicken sandwhiches',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'leftovers',
-      items: [],
-      type: '',
-  },
-  {
-      name: 'pasta a la homer',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'pasta - marinara',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'shredded beef tacos',
-      items: [],
-      type: 'dinner',
-  },
-  {
-      name: 'shredded chicken tacos',
-      items: [],
-      type: 'dinner',
-  },
-];
-
 // Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
+const getSuggestions = (value, suggestedMealNames) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    return inputLength === 0 ? [...meals] : meals.filter(meal =>
+    return inputLength === 0 ? [...suggestedMealNames] : suggestedMealNames.filter(meal =>
         meal.name.toLowerCase().slice(0, inputLength) === inputValue
     );
 };
@@ -150,7 +62,7 @@ class DayOptions extends Component {
 
 	    this.state = {
 	        value: '',
-	        suggestions: [...meals],
+	        suggestions: this.props.suggestedMealNames ? [...this.props.suggestedMealNames] : [],
 	        filterByMealType: true,
 	        mounted: true,
 	    };
@@ -164,18 +76,21 @@ class DayOptions extends Component {
 	    this.onTransitionComplete = this.onTransitionComplete.bind(this);
 	}
 
+	componentDidMount() {
+		// ADD THE GET ITEMS AND MEALS HERE, CHECK IF LENGTH, THEN FETCH IF 0 ONLY AND REMOVE FROM /PAGES/GROCERY.JS AND DISPLAY THE MAIN UI
+		// ONLY IF LENGTH > 0
+	}
+
 	componentWillUnmount() {
-		const { items, plannedMeals, mealGroceryList, updateMealGroceryList } = this.props;
-		// console.log(plannedMeals);
-		const mealItems = Object.keys(plannedMeals).map(meal => Object.keys(plannedMeals[meal]).map(m => plannedMeals[meal][m]));
-		// console.log(mealItems);
-		updateMealGroceryList(mealGroceryList, [
-			{ id: 3, name: 'eggs', category: 'refrigerated', qty: 1 },
-			{ id: 2, name: 'bacon', category: 'meat', qty: 1 },
-			{ id: 1, name: 'bagels', category: 'bread', qty: 1 },
-			{ id: 2, name: 'bacon', category: 'meat', qty: 1 },
-		]);
-		// console.log(items);
+		const { items, plannedMeals, mealGroceryList, updateMealGroceryList, meals } = this.props;
+		const mealItems = Object.keys(plannedMeals).map(meal => {
+			return Object.keys(plannedMeals[meal]).map(m => meals[plannedMeals[meal][m].name.toLowerCase().replace(/\W/g, '')].items.map(item => {
+				return items[item.id];
+			}));
+		});
+		const mergedItems = [].concat.apply([], mealItems);
+		const mergedItems2 = [].concat.apply([], mergedItems);
+		updateMealGroceryList(mealGroceryList, mergedItems2);
 	}
 
 	onChange(event, { newValue }) {
@@ -187,8 +102,10 @@ class DayOptions extends Component {
 	// Autosuggest will call this function every time you need to update suggestions.
 	// You already implemented this logic above, so just use it.
 	onSuggestionsFetchRequested({ value }) {
+		const { suggestedMealNames } = this.props;
+
 	    this.setState({
-	        suggestions: getSuggestions(value),
+	        suggestions: getSuggestions(value, suggestedMealNames),
 	    });
 	}
 
@@ -201,9 +118,11 @@ class DayOptions extends Component {
 	}
 
 	handleClearInputClick() {
+		const { suggestedMealNames } = this.props;
+
 		this.setState({
 			value: '',
-			suggestions: [...meals],
+			suggestions: [...suggestedMealNames],
 		});
 	}
 
@@ -224,8 +143,11 @@ class DayOptions extends Component {
 	}
 
 	onTransitionComplete() {
-		if (!this.state.mounted) {
-	        this.props.setMealSelectorOptions({ display: false });
+		const { setMealSelectorOptions } = this.props;
+		const { mounted } = this.state;
+
+		if (!mounted) {
+	        setMealSelectorOptions({ display: false });
 	    }
 	}
 
@@ -297,7 +219,14 @@ class DayOptions extends Component {
     }
 }
 
-const mapStateToProps = ({ items, mealSelectorOptions, plannedMeals, mealGroceryList }) => ({ items, mealSelectorOptions, plannedMeals, mealGroceryList });
+const mapStateToProps = ({ items, mealSelectorOptions, plannedMeals, mealGroceryList, meals, suggestedMealNames }) => ({ 
+	items, 
+	mealSelectorOptions, 
+	plannedMeals, 
+	mealGroceryList,
+	meals, 
+	suggestedMealNames,
+});
 
 const mapDispatchToProps = dispatch => ({
 	setMealSelectorOptions: bindActionCreators(setMealSelectorOptions, dispatch),
