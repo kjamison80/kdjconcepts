@@ -73,7 +73,8 @@ select:not([multiple]) {
   }
 }
 
-.mealPicker {
+.mealPicker,
+.groceryList {
   max-width: 30em;
   text-transform: capitalize;
   position: relative;
@@ -97,7 +98,8 @@ select:not([multiple]) {
   outline: none;
 }
 
-.react-autosuggest__suggestions-container ul {
+.react-autosuggest__suggestions-container ul,
+.groceryList {
   margin: .5em 0;
   padding: 0;
   height: 15.5em;
@@ -105,12 +107,14 @@ select:not([multiple]) {
   text-align: left;
 }
 
-.react-autosuggest__suggestions-container ul li {
+.react-autosuggest__suggestions-container ul li,
+.groceryList > div {
   padding: .25em .5em;
   border-bottom: 1px dotted rgba(255, 255, 255, .1);
 }
 
-.react-autosuggest__suggestions-container--open {
+.react-autosuggest__suggestions-container--open,
+.groceryList {
   background: #4a4a4a;
   border-radius: 3px;
 }

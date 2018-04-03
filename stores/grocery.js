@@ -297,6 +297,10 @@ export const mergeLists = (list, mealList) => dispatch => {
     return dispatch({ type: actionTypes.UPDATE_GROCERY_LIST, payload: updatedList });
 };
 
+export const resetGroceryList = () => dispatch => {
+    return dispatch({ type: actionTypes.UPDATE_GROCERY_LIST, payload: {} })
+}
+
 // const sortListByCategory = (list) => {};
 
 /**
